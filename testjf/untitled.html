@@ -1,0 +1,48 @@
+
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+    <title>wxpaytest</title>
+	
+	<button  onclick="wxpay();">支付</button>
+	
+	
+	<textarea name="date" cols="20" rows="12"></textarea>
+	
+</body>
+
+</html>
+<script type="text/javascript">
+   function wxpay()
+   {
+		var platformId = 'A00012017050000001080';
+		var merchantNo = 'M55002017050000563579';
+		var subAppId = 'wxda24132f43802300';
+		var selectTradeType = 'H5_WXJSAPI'
+		
+		var date = new Date();
+		this.year = date.getFullYear();
+		this.month = date.getMonth() + 1;
+		this.date = date.getDate();
+		var Time1 = (this.year*10000000000)+(this.month*100000000) + (this.date *1000000);
+		var date = new Date();
+		this.hour = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
+		this.minute = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+		this.second = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+		var Time2 = (this.hour*10000) + (this.minute*100) + (this.second *1);
+		var time = Time1+Time2;
+		var date1 = Time1/1000000;
+		var merchantSeq = platformId + date1 + '00001';
+		var notifyUrl = 'https://wxpay.cmbc.com.cn/cmbcpaydemo/NoticeServlet?name=notice';
+		var orderInfo = 'wdbg';
+
+		
+		var jsondata =' {"platformId":"A00012017050000001080","merchantNo":"M55002017050000563579","merchantSeq":"'+merchantSeq+'","mchSeqNo":"MCHSEQNO0000000000000T0028102568","selectTradeType":"H5_WXJSAPI","amount":"1","orderInfo":"统一下单DEMO-H5_WXJSAPI","notifyUrl":"https://wxpay.cmbc.com.cn/cmbcpaydemo/NoticeServlet?name=notice","remark":"","transDate":"'+date1+'","transTime":"'+time+'","inExtData":"测试请求扩展大字段","subOpenId":"ooEyIjpfMK7SWBfKSe7TM6MiePQE","subAppId":"wxda24132f43802300"}';
+		document.all['date'].value= jsondata;
+		
+	}
+   
+   
+	
+			
+</script>

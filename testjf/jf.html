@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>积分兑换</title>
+	<script type="text/javascript" src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
+</head>
+<body>
+	请输入手机号：<input type="text" name="phone" id="phone"><button id="sendcode" name="sendcode">发送验证码</button>
+	请输入验证码：<input type="text" name="code" id="code"><button id="slpoi_num" id="slpoi_num">查询1积分</button>
+	积分：<textarea name="poi_num" id="poi_num" cols="0" rows="0"></textarea>
+	<textarea name="acceptid" id="acceptid" cols="20" rows="12" " ></textarea>
+   <input type="button" name="pay" id="pay" value="pay">
+
+</body>
+
+
+
+</html>
+
+
+
+<script>
+$("#sendcode").click(function() {
+var phone =  $("#phone").val();
+$.ajax({
+      url: '/testjf/jfajax.php',
+      Type: "get",
+      data: "phone="+phone,
+      dataType: "json",
+      success: function sendcode(data) {
+      			
+				//alert(data);
+      			document.getElementById("acceptid").value = data;
+        }
+        })
+   
+});
+
+$("#slpoi_num").click(function() {
+var phone =  $("#phone").val();
+var acceptid =  $("#acceptid").val();
+var code = $("#code").val();
+$.ajax({
+      url: '/testjf/cxajax.php',
+      Type: "get",
+      data: 'phone='+phone+'&acceptid='+acceptid+'&code='+code,
+      dataType: "json",
+      success: function sendcode(data) {
+      			
+				//alert(data);
+      			document.getElementById("poi_num").value = data;
+        }
+        })
+   
+});
+$("#pay").click(function() {
+var phone =  $("#phone").val();
+var acceptid =  $("#acceptid").val();
+var code = $("#code").val();
+var ordernum = '2017111600003';
+var money = '100';
+$.ajax({
+      url: '/testjf/jfpay.php',
+      Type: "get",
+      data: 'phone='+phone+'&acceptid='+acceptid+'&code='+code+'&ordernum='+ordernum+'&money='+money,
+      dataType: "json",
+      success: function sendcode(data) {
+            
+        //alert(data);
+           
+        }
+        })
+   
+});
+
+
+</script>

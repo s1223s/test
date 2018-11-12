@@ -1,0 +1,69 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="utf-8">
+<meta name="keywords" content="大转盘抽奖" />
+<meta name="description" content="大转盘抽奖" />
+<title>jQuery+PHP微信大转盘抽奖</title>
+<link rel="stylesheet" type="text/css" href="css/main.css" />
+<style type="text/css"> 
+.demo{width:90%; height:280px; position:relative; margin:50px auto}
+#disk{width:100%; height:280px; background:url(disk.jpg) no-repeat;}
+#start{width:163px; height:320px; position:absolute; top:22px; left:82px;}
+#start img{cursor:pointer}
+</style>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="jQueryRotate.2.2.js"></script>
+<script type="text/javascript" src="jquery.easing.min.js"></script>
+<script type="text/javascript"> 
+$(function(){
+	 $("#startbtn").click(function(){
+		lottery();
+	});
+});
+function lottery(){
+	$.ajax({
+		type: 'POST',
+		url: 'data.php',
+		dataType: 'json',
+		cache: false,
+		error: function(){
+			alert('出错了！');
+			return false;
+		},
+		success:function(json){
+			$("#startbtn").unbind('click').css("cursor","default");
+			var a = json.angle;
+			var p = json.prize;
+			$("#startbtn").rotate({
+				duration:3000,
+				angle: 0,
+            	animateTo:1800+a,
+				easing: $.easing.easeOutSine,
+				callback: function(){
+					var con = confirm('恭喜你，中得'+p+'\n还要再来一次吗？');
+					if(con){
+						lottery();
+					}else{
+						return false;
+					}
+				}
+			});
+		}
+	});
+}
+</script>
+</head>
+ 
+<body>
+<div id="main">
+   <h2 class="top_title"><a href="http://www.codesc.net/source/14951.shtml">jQuery+PHP微信大转盘抽奖</a></h2>
+   <div class="msg" style="width:100%; margin:30px auto 0px auto; text-align:center">关于中奖几率，初步设置为：<br>一等奖：1%，二等奖：2%，三等奖：5%，四等奖：7%，五等奖：10%，六等奖：25%，七等奖：50%。<br>您可以根据需要自己设置，在data.php中设置。</div>
+   <div class="demo">
+        <div id="disk"></div>
+        <div id="start"><img src="start.png" id="startbtn"></div>
+   </div>
+</div>
+</body>
+</html>

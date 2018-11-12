@@ -1,0 +1,33 @@
+<html>  
+    <head>  
+        <meta http-equiv=Content-Type content="text/html;charset=utf-8">  
+        <title>PHP+AJAX+MYSQL实现签到</title>  
+        <script type="text/javascript" src="js/jquery.min.js"></script>  
+        <script type="text/javascript">  
+            //page load get num  
+            $(window).ready(function(){  
+                doGetDays();  
+            });  
+            //get sign days  
+            function doGetDays(){  
+                $.get("sign.php?do=getDay",{},function(data){  
+                    $("#days").html(data);  
+                });  
+            }  
+            //do  sign  
+            function doSign(){  
+                $.get("sign.php?do=sign",{},function(data){  
+                    if(data==1){  
+                        alert("sign success!");  
+                        window.location.href='/';  
+                    }else if(data==2){  
+                        alert("already sign today! next tomorrow!");      
+                    }  
+                });  
+            }  
+        </script>  
+    </head>  
+    <body>  
+        <a style="cursor:pointer;" onclick="doSign();">签到<span>连续签到<span id="days"></span>天</span></a>  
+    </body>  
+</html>
